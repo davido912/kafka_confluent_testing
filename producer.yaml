@@ -1,0 +1,23 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: producer
+
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: producerApp
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: busybox
+        image: {{ PRODUCER_IMAGE_URI}}
+        imagePullPolicy: Always
+        args:
+          - /bin/bash 
+          - -c
+          - python3 /opt/kafka_test/poc_kafka_producer.py
+          
